@@ -16,7 +16,7 @@ const existingUser = await User.findOne({email: email.toLowerCase()});
 //       throw new  Error("Invalid password.");
 //     }
 
-    if (existingUser && (await newUser.matchPassword(password))) {
+    if (existingUser && (await existingUser.matchPassword(password))) {
       res.status(201).json({
       _id: existingUser._id,
       name: existingUser.name,

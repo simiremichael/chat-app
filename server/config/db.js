@@ -11,7 +11,7 @@ import mongoose  from "mongoose";
         console.log(`Mongodb connected: ${connect.connection.host}`)
     } catch (error) {
       console.log(`Error: ${error.message}`);
-        process.exit();
+        process.exit(); 
     }
 };
 
