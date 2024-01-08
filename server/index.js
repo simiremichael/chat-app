@@ -9,7 +9,7 @@ connectDB();
 
 const app = express();
 
-app.use(express.json()); // to accept json data
+app.use(express.json()); // to accept json data 
 
  app.use("/api/user", userRoute);
 // app.use("/api/chat", chatRoutes);

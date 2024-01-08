@@ -11,12 +11,12 @@ const existingUser = await User.findOne({email: email.toLowerCase()});
   if (!existingUser) {
     throw new Error("user not found");
   }
-const isPasswordCorrect = await bcrypt.compare(password, existingUser.password);
-    if(!isPasswordCorrect ) {
-      throw new  Error("Invalid password.");
-    }
+// const isPasswordCorrect = await bcrypt.compare(password, existingUser.password);
+//     if(!isPasswordCorrect ) {
+//       throw new  Error("Invalid password.");
+//     }
 
-    if (existingUser) {
+    if (existingUser && (await newUser.matchPassword(password))) {
       res.status(201).json({
       _id: existingUser._id,
       name: existingUser.name,
@@ -91,10 +91,10 @@ const existingUser = await User.findOne({email: email.toLowerCase()});
 throw new Error("User already exists")
  }
 
-const hashedPassword = await bcrypt.hash(password, 12);
+// const hashedPassword = await bcrypt.hash(password, 12);
 
  const newUser = await User.create({
-  name, email, password: hashedPassword , pics
+  name, email, password, pics
  }); 
 
  if (newUser) {
