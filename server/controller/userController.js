@@ -1,7 +1,7 @@
 import User from "../model/userModel.js";
 import asyncHandler from 'express-async-handler'
 import generateToken from "../config/generateToken.js";
-import bcrypt from 'bcrypt';
+// import bcrypt from 'bcrypt';
 
 export const login =  asyncHandler( async (req, res) => {
 
@@ -16,7 +16,7 @@ const existingUser = await User.findOne({email: email.toLowerCase()});
 //       throw new  Error("Invalid password.");
 //     }
 
-    if (existingUser && (await existingUser.matchPassword(password))) {
+    if (existingUser && (await existingUser.matchPassword(password))) { 
       res.status(201).json({
       _id: existingUser._id,
       name: existingUser.name,

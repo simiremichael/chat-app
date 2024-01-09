@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
 
 const userSchema = new mongoose.Schema({
     name: {type: String, required: true},
@@ -8,7 +9,7 @@ const userSchema = new mongoose.Schema({
     default: "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
     },
 },
- { timestamps: true }
+ { timestamps: true } 
 );
 
 userSchema.methods.matchPassword = async function (enteredPassword) {
