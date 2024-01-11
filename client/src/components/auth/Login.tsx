@@ -1,14 +1,66 @@
-import { Button, FormControl, FormLabel, Input, InputGroup, InputRightAddon, VStack } from "@chakra-ui/react"
+import { Button, FormControl, FormLabel, Input, InputGroup, InputRightAddon, VStack, useToast } from "@chakra-ui/react"
+import axios from "axios"
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 function Login() {
 
   const initialData = { email: '', password: ''}
   const [formData, setFormData] = useState(initialData)
   const [show, setShow] = useState(false)
+ const [loading, setLoading] = useState(false);
+  const toast = useToast()
+const navigate = useNavigate()
 
-  const handleSubmit = () => {
+  const handleSubmit = async() => {
+ setLoading(true);
+  if(!formData.email || !formData.password ) {
+    toast({
+          title: 'one or more input fileds empty.',
+          description: "All fields are required!",
+          status: 'warning',
+          duration: 5000,
+          isClosable: true,
+          position: 'bottom'
+        });
+        setLoading(false);
+        return;
+  }
 
+  try {
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+      },
+    };
+    const { data } = await axios.post("http://localhost:5000/api/user/login", 
+    {
+      ...formData
+    }, 
+    config
+    );
+    toast({
+          title: 'login to account.',
+          description: "Login successfully!",
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+          position: 'bottom'
+        });
+        localStorage.setItem('userInfo', JSON.stringify(data));
+        setLoading(false);
+        navigate('/chat');
+  } catch (error) {
+     toast({
+          title: 'Error.',
+          description: "Error occured!",
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+          position: 'bottom'
+        });
+        setLoading(false);
+  }
   }
 
   return (
@@ -50,6 +102,7 @@ function Login() {
       colorScheme="red"
       width= '100%'
       onClick={() => setFormData({...formData, email: 'guest@example.com', password: '1234'})}
+      isLoading={loading}
       >
         Get Guest User Credentials
       </Button>
